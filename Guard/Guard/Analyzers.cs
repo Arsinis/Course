@@ -16,19 +16,27 @@ namespace Guard
             {
                 if (str.Contains(attack) && str.Contains("not"))
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("It's allright. Nothning bad");
+                    Console.ResetColor();
                     found = true;
                     break;
                 }
                 if (str.Contains(attack) && !str.Contains("not"))
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Warning!!! Network attack detected!");
+                    Console.ResetColor();
                     found = true;
                     break;
                 }
             }
             if (!found)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Can't say anymore... Try to analyze more deeply");
+                Console.ResetColor();
+            }
         } 
         public void DeepScan(List<string> data, string attack)
         {
@@ -56,13 +64,29 @@ namespace Guard
             {
                 int percent = 100 * yes / (yes + no);
                 if (percent <= 25)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("It's not attack");
+                    Console.ResetColor();
+                }
                 if (percent > 25 && percent <= 50)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Maybe it is an attack. Be careful");
+                    Console.ResetColor();
+                }
                 if (percent > 50 && percent <= 75)
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.WriteLine("Your system is exposed to serious risk. Run your defender system");
+                    Console.ResetColor();
+                }
                 if (percent > 75)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Attack detected!!! ");
+                    Console.ResetColor();
+                }
             }
         }
     }

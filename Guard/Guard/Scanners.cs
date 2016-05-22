@@ -82,14 +82,16 @@ namespace Guard
             watcher.Deleted -= OnChanged;
             watcher.Renamed -= OnRenamed;
             captureDevice.StopCapture();
+            Console.WriteLine("Scanning successfully completed");
         }
 
-        public void Scan()
+        public void Scan(int n)
         {
-            myTimer = new System.Timers.Timer(4100);
+            myTimer = new System.Timers.Timer(n);
             myTimer.Elapsed += Timer_Elapsed;
             myTimer.AutoReset = false;
             myTimer.Start();
+            Console.WriteLine("Start scanning");
 
             watcher = new FileSystemWatcher();
             watcher.Path = "C:/Windows";
@@ -113,6 +115,7 @@ namespace Guard
 
         public void GenerateAttack()
         {
+            Console.WriteLine("Generating signatures");
             string attack = "";
             #region traffic
             if (Count == 0)
@@ -127,11 +130,11 @@ namespace Guard
 
             #region portimpact
             if (ports.Count() == Count)
-                attack += "portimpact=little and";
+                attack += "portimpact=little and ";
             else if (ports.Count() < Count / 10)
-                attack += "portimpact=medium and";
+                attack += "portimpact=medium and ";
             else if (ports.Count() < Count / 100)
-                attack += "portimpact=big and";
+                attack += "portimpact=big and ";
             #endregion
 
             #region workwithregistry
@@ -147,16 +150,16 @@ namespace Guard
             if (RegChan == 0)
                 attack += "elevation=no and ";
             else
-                attack += "elevation=yes and";
+                attack += "elevation=yes and ";
             #endregion
 
             #region CanalsOpen
             if (ips.Count() == Count)
-                attack += "CanalsOpen=little and";
+                attack += "CanalsOpen=little and ";
             else if (ips.Count() < Count / 10)
-                attack += "CanalsOpen=average and";
+                attack += "CanalsOpen=average and ";
             else if (ips.Count() < Count / 100)
-                attack += "CanalsOpen=much and";
+                attack += "CanalsOpen=much and ";
             #endregion
 
             #region identificate
@@ -167,6 +170,7 @@ namespace Guard
             #endregion
             StreamWriter sw = new StreamWriter("e:\\1.txt");
             sw.Write(attack);
+            Console.WriteLine("Signatures generated successfully");
             sw.Close();
         }
     }
